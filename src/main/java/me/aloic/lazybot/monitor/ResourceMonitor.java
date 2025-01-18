@@ -1,6 +1,5 @@
 package me.aloic.lazybot.monitor;
 
-import me.aloic.lazybot.discord.config.DiscordBotRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +56,7 @@ public class ResourceMonitor
      * @throws IOException 如果提取失败
      */
     private static void extractResources(String resourceDir, File targetDir) throws IOException {
-        String jarPath = DiscordBotRunner.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String jarPath = ResourceMonitor.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         File jarFile = jarPathVerifier(jarPath);
         if (jarFile.isFile() && jarFile.getName().endsWith(".jar")) {
             logger.info("正在从 JAR 文件中提取资源");
@@ -75,7 +74,7 @@ public class ResourceMonitor
         } else {
             // 如果不是 JAR 文件，尝试从 classpath 中获取资源目录
             logger.info("正在从 classpath 中提取资源");
-            URL resourceUrl = DiscordBotRunner.class.getClassLoader().getResource(resourceDir);
+            URL resourceUrl = ResourceMonitor.class.getClassLoader().getResource(resourceDir);
             if (resourceUrl != null) {
                 File resourceFolder = new File(resourceUrl.getFile());
                 copyResourceFolder(resourceFolder, targetDir);
